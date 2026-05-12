@@ -11,6 +11,7 @@ import com.example.hotel_booking_api.repository.UserRepository;
 import com.example.hotel_booking_api.security.AppUserDetails;
 import com.example.hotel_booking_api.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,7 +44,11 @@ public class AuthServiceImpl implements AuthService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new UserAlreadyExistsException("Email already exists");
+        }
 
         UserDetails userDetails = new AppUserDetails(user);
         String token = jwtService.generateToken(userDetails);
