@@ -45,6 +45,17 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(message));
     }
 
+    // 404 - resource not found
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        List.of(new FieldErrorResponse("id", ex.getMessage()))
+                ));
+    }
+
     // 500 - unexpected error
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {
