@@ -1,6 +1,6 @@
 package com.example.hotel_booking_api.security;
 
-import com.example.hotel_booking_api.service.UserService;
+import com.example.hotel_booking_api.service.AppUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    private final UserService userService;
+    private final AppUserDetailsService appUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,7 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String email = jwtService.extractEmail(token);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.loadUserByUsername(email);
+            UserDetails userDetails = appUserDetailsService.loadUserByUsername(email);
 
             if(jwtService.isTokenValid(token, userDetails)) {
                 setAuthentication(request, userDetails);

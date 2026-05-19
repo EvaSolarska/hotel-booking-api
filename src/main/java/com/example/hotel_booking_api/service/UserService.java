@@ -1,23 +1,13 @@
 package com.example.hotel_booking_api.service;
 
-import com.example.hotel_booking_api.entity.User;
-import com.example.hotel_booking_api.repository.UserRepository;
-import com.example.hotel_booking_api.security.AppUserDetails;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import com.example.hotel_booking_api.dto.RoleRequest;
+import com.example.hotel_booking_api.dto.UserResponse;
 
-@Service
-@RequiredArgsConstructor
-public class UserService implements UserDetailsService {
-    private final UserRepository userRepository;
+import java.util.List;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new UsernameNotFoundException("User not found with email: " + email));
-        return new AppUserDetails(user);
-    }
+public interface UserService {
+    UserResponse changeRole(Long id, RoleRequest role);
+    List<UserResponse> getAllUsers();
+    UserResponse getUserById(Long id);
+    void deleteUser(Long id);
 }

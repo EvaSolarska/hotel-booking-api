@@ -7,7 +7,7 @@ import com.example.hotel_booking_api.dto.RegisterRequest;
 import com.example.hotel_booking_api.exception.InvalidCredentialsException;
 import com.example.hotel_booking_api.security.JwtService;
 import com.example.hotel_booking_api.service.AuthService;
-import com.example.hotel_booking_api.service.UserService;
+import com.example.hotel_booking_api.service.AppUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -44,7 +44,7 @@ public class AuthControllerTest {
     private JwtService jwtService;
 
     @MockitoBean
-    private UserService userService;
+    private AppUserDetailsService appUserDetailsService;
 
     private static final String REGISTER_URL = "/api/auth/register";
     private static final String LOGIN_URL = "/api/auth/login";

@@ -2,10 +2,13 @@ package com.example.hotel_booking_api.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import tools.jackson.databind.exc.InvalidFormatException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +56,34 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(
                         List.of(new FieldErrorResponse("id", ex.getMessage()))
+                ));
+    }
+
+    // 400 - invalid enum value or malformed JSON
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidFormat(HttpMessageNotReadableException ex) {
+        String message = "Invalid request body";
+        String field = "field";
+
+        if(ex.getCause() instanceof InvalidFormatException invalidFormatException) {
+
+            if(!invalidFormatException.getPath().isEmpty()) {
+                field = invalidFormatException.getPath().getFirst().getPropertyName();
+            }
+
+            if (invalidFormatException.getTargetType().isEnum())  {
+                String allowedValues = Arrays.stream(invalidFormatException.getTargetType().getEnumConstants())
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", "));
+                message = "Invalid value. Allowed values: " + allowedValues;
+            }
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(
+                        List.of(new FieldErrorResponse(field, message))
                 ));
     }
 
