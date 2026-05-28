@@ -2,6 +2,8 @@ package com.example.hotel_booking_api.controller;
 
 import com.example.hotel_booking_api.dto.HotelRequest;
 import com.example.hotel_booking_api.dto.HotelResponse;
+import com.example.hotel_booking_api.dto.UserResponse;
+import com.example.hotel_booking_api.service.HotelManagerService;
 import com.example.hotel_booking_api.service.HotelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 public class HotelController {
 
     private final HotelService hotelService;
+    private final HotelManagerService hotelManagerService;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -36,7 +39,7 @@ public class HotelController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or @hotelManagerService.isHotelManager(#id, principal.username)")
     public ResponseEntity<HotelResponse> updateHotel(@PathVariable Long id, @Valid @RequestBody HotelRequest request) {
         return ResponseEntity.ok(hotelService.updateHotel(id, request));
     }
@@ -46,5 +49,25 @@ public class HotelController {
     public ResponseEntity<Void> deleteHotel(@PathVariable Long id) {
         hotelService.deleteHotel(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/managers/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> assignManager(@PathVariable Long id, @PathVariable Long userId){
+        hotelManagerService.assignManager(id, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/{id}/managers/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> removeManager(@PathVariable Long id, @PathVariable Long userId) {
+        hotelManagerService.removeManager(id, userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/managers")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserResponse>> getManagers (@PathVariable Long id) {
+        return ResponseEntity.ok(hotelManagerService.getManagers(id));
     }
 }
