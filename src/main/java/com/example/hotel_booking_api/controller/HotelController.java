@@ -1,8 +1,8 @@
 package com.example.hotel_booking_api.controller;
 
-import com.example.hotel_booking_api.dto.HotelRequest;
-import com.example.hotel_booking_api.dto.HotelResponse;
-import com.example.hotel_booking_api.dto.UserResponse;
+import com.example.hotel_booking_api.dto.request.HotelRequest;
+import com.example.hotel_booking_api.dto.response.HotelResponse;
+import com.example.hotel_booking_api.dto.response.UserResponse;
 import com.example.hotel_booking_api.service.HotelManagerService;
 import com.example.hotel_booking_api.service.HotelService;
 import jakarta.validation.Valid;

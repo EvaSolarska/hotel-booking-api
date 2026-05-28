@@ -1,8 +1,8 @@
-package com.example.hotel_booking_api.service;
+package com.example.hotel_booking_api.service.impl;
 
-import com.example.hotel_booking_api.dto.AuthResponse;
-import com.example.hotel_booking_api.dto.LoginRequest;
-import com.example.hotel_booking_api.dto.RegisterRequest;
+import com.example.hotel_booking_api.dto.response.AuthResponse;
+import com.example.hotel_booking_api.dto.request.LoginRequest;
+import com.example.hotel_booking_api.dto.request.RegisterRequest;
 import com.example.hotel_booking_api.entity.Role;
 import com.example.hotel_booking_api.entity.User;
 import com.example.hotel_booking_api.exception.InvalidCredentialsException;
@@ -10,6 +10,7 @@ import com.example.hotel_booking_api.exception.UserAlreadyExistsException;
 import com.example.hotel_booking_api.repository.UserRepository;
 import com.example.hotel_booking_api.security.AppUserDetails;
 import com.example.hotel_booking_api.security.JwtService;
+import com.example.hotel_booking_api.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;

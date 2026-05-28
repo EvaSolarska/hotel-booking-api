@@ -1,7 +1,7 @@
 package com.example.hotel_booking_api.config;
 
 import com.example.hotel_booking_api.security.JwtAuthFilter;
-import com.example.hotel_booking_api.service.AppUserDetailsService;
+import com.example.hotel_booking_api.security.AppUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,13 +1,14 @@
 package com.example.hotel_booking_api.service;
 
-import com.example.hotel_booking_api.dto.AuthResponse;
-import com.example.hotel_booking_api.dto.LoginRequest;
-import com.example.hotel_booking_api.dto.RegisterRequest;
+import com.example.hotel_booking_api.dto.response.AuthResponse;
+import com.example.hotel_booking_api.dto.request.LoginRequest;
+import com.example.hotel_booking_api.dto.request.RegisterRequest;
 import com.example.hotel_booking_api.entity.User;
 import com.example.hotel_booking_api.exception.InvalidCredentialsException;
 import com.example.hotel_booking_api.exception.UserAlreadyExistsException;
 import com.example.hotel_booking_api.repository.UserRepository;
 import com.example.hotel_booking_api.security.JwtService;
+import com.example.hotel_booking_api.service.impl.AuthServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

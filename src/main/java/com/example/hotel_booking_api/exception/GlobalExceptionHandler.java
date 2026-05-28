@@ -1,5 +1,7 @@
 package com.example.hotel_booking_api.exception;
 
+import com.example.hotel_booking_api.dto.response.ErrorResponse;
+import com.example.hotel_booking_api.dto.response.FieldErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

@@ -1,7 +1,7 @@
 package com.example.hotel_booking_api.service;
 
-import com.example.hotel_booking_api.dto.HotelRequest;
-import com.example.hotel_booking_api.dto.HotelResponse;
+import com.example.hotel_booking_api.dto.request.HotelRequest;
+import com.example.hotel_booking_api.dto.response.HotelResponse;
 
 import java.util.List;
 

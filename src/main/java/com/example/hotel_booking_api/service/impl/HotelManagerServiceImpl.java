@@ -1,6 +1,6 @@
-package com.example.hotel_booking_api.service;
+package com.example.hotel_booking_api.service.impl;
 
-import com.example.hotel_booking_api.dto.UserResponse;
+import com.example.hotel_booking_api.dto.response.UserResponse;
 import com.example.hotel_booking_api.entity.Hotel;
 import com.example.hotel_booking_api.entity.HotelManager;
 import com.example.hotel_booking_api.entity.Role;
@@ -10,6 +10,7 @@ import com.example.hotel_booking_api.mapper.UserMapper;
 import com.example.hotel_booking_api.repository.HotelManagerRepository;
 import com.example.hotel_booking_api.repository.HotelRepository;
 import com.example.hotel_booking_api.repository.UserRepository;
+import com.example.hotel_booking_api.service.HotelManagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

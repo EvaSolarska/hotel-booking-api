@@ -1,11 +1,12 @@
-package com.example.hotel_booking_api.service;
+package com.example.hotel_booking_api.service.impl;
 
-import com.example.hotel_booking_api.dto.RoleRequest;
-import com.example.hotel_booking_api.dto.UserResponse;
+import com.example.hotel_booking_api.dto.request.RoleRequest;
+import com.example.hotel_booking_api.dto.response.UserResponse;
 import com.example.hotel_booking_api.entity.User;
 import com.example.hotel_booking_api.exception.ResourceNotFoundException;
 import com.example.hotel_booking_api.mapper.UserMapper;
 import com.example.hotel_booking_api.repository.UserRepository;
+import com.example.hotel_booking_api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

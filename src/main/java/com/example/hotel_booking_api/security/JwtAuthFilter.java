@@ -1,6 +1,5 @@
 package com.example.hotel_booking_api.security;
 
-import com.example.hotel_booking_api.service.AppUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

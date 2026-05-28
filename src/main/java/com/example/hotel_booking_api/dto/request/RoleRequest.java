@@ -1,4 +1,4 @@
-package com.example.hotel_booking_api.dto;
+package com.example.hotel_booking_api.dto.request;
 
 import com.example.hotel_booking_api.entity.Role;
 import jakarta.validation.constraints.NotNull;

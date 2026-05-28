@@ -1,6 +1,6 @@
 package com.example.hotel_booking_api.service;
 
-import com.example.hotel_booking_api.dto.UserResponse;
+import com.example.hotel_booking_api.dto.response.UserResponse;
 
 import java.util.List;
 

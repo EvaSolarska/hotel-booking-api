@@ -1,8 +1,7 @@
-package com.example.hotel_booking_api.service;
+package com.example.hotel_booking_api.security;
 
 import com.example.hotel_booking_api.entity.User;
 import com.example.hotel_booking_api.repository.UserRepository;
-import com.example.hotel_booking_api.security.AppUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

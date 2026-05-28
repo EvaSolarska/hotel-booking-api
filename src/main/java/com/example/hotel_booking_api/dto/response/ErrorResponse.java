@@ -1,4 +1,4 @@
-package com.example.hotel_booking_api.exception;
+package com.example.hotel_booking_api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

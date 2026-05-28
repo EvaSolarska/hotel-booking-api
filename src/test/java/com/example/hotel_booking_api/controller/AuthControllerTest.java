@@ -1,13 +1,13 @@
 package com.example.hotel_booking_api.controller;
 
 import com.example.hotel_booking_api.config.SecurityConfig;
-import com.example.hotel_booking_api.dto.AuthResponse;
-import com.example.hotel_booking_api.dto.LoginRequest;
-import com.example.hotel_booking_api.dto.RegisterRequest;
+import com.example.hotel_booking_api.dto.response.AuthResponse;
+import com.example.hotel_booking_api.dto.request.LoginRequest;
+import com.example.hotel_booking_api.dto.request.RegisterRequest;
 import com.example.hotel_booking_api.exception.InvalidCredentialsException;
 import com.example.hotel_booking_api.security.JwtService;
 import com.example.hotel_booking_api.service.AuthService;
-import com.example.hotel_booking_api.service.AppUserDetailsService;
+import com.example.hotel_booking_api.security.AppUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

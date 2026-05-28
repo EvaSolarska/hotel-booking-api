@@ -1,7 +1,7 @@
 package com.example.hotel_booking_api.controller;
 
-import com.example.hotel_booking_api.dto.RoleRequest;
-import com.example.hotel_booking_api.dto.UserResponse;
+import com.example.hotel_booking_api.dto.request.RoleRequest;
+import com.example.hotel_booking_api.dto.response.UserResponse;
 import com.example.hotel_booking_api.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
