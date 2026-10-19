@@ -5,6 +5,8 @@ import com.example.hotel_booking_api.entity.Hotel;
 import com.example.hotel_booking_api.entity.HotelManager;
 import com.example.hotel_booking_api.entity.Role;
 import com.example.hotel_booking_api.entity.User;
+import com.example.hotel_booking_api.exception.DuplicateResourceException;
+import com.example.hotel_booking_api.exception.InvalidOperationException;
 import com.example.hotel_booking_api.exception.ResourceNotFoundException;
 import com.example.hotel_booking_api.mapper.UserMapper;
 import com.example.hotel_booking_api.repository.HotelManagerRepository;
@@ -38,11 +40,15 @@ public class HotelManagerServiceImpl implements HotelManagerService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (user.getRole() != Role.HOTEL_MANAGER) {
-            throw new IllegalStateException("User must have MANAGER role");
+            throw new InvalidOperationException(
+                    "role",
+                    "User must have HOTEL_MANAGER role");
         }
 
         if (hotelManagerRepository.existsByHotelIdAndUserId(hotelId, userId)) {
-            throw new IllegalStateException("User is already a manager of this hotel");
+            throw new DuplicateResourceException(
+                    "userId",
+                    "User is already a manager of this hotel");
         }
 
         HotelManager hotelManager = HotelManager.builder()

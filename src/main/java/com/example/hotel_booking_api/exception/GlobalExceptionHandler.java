@@ -101,14 +101,14 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // 409 - illegal state
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex) {
+    // 400 - invalid operation
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidOperation(InvalidOperationException ex){
         return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse(
-                        List.of(new FieldErrorResponse("error", ex.getMessage()))
-                ));
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(List.of(
+                        new FieldErrorResponse(ex.getField(), ex.getMessage())
+                )));
     }
 
     // 403 - access denied
