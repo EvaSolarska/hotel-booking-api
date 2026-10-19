@@ -62,6 +62,17 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    // 409 - conflict / duplicate resource
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateResource(DuplicateResourceException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(
+                        List.of(new FieldErrorResponse(ex.getField(), ex.getMessage()))
+                ));
+    }
+
     // 400 - invalid enum value or malformed JSON
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

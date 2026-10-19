@@ -34,11 +34,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/hotels/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/hotels").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/hotels/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/hotels/**").hasAnyRole("ADMIN", "HOTEL_MANAGER")
                         .requestMatchers("/api/hotels/*/managers/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/hotels/*/rooms/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/hotels").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/hotels/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/hotels/**").hasAnyRole("ADMIN", "HOTEL_MANAGER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
