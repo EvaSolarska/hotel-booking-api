@@ -6,7 +6,15 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "hotel_manager")
+@Table(
+        name = "hotel_managers",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_hotel_manager_hotel_user",
+                        columnNames = {"hotel_id", "user_id"}
+                )
+        }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,12 +25,12 @@ public class HotelManager {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "hotel_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private LocalDateTime assignedAt;

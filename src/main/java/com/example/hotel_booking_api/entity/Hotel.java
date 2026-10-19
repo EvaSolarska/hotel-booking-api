@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "hotel")
+@Table(name = "hotels")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,13 +19,15 @@ public class Hotel {
     @Column(nullable = false)
     private String name;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
     private String email;
 
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "address_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "address_id", unique = true)
     private Address address;
 }
