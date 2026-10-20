@@ -3,11 +3,15 @@ package com.example.hotel_booking_api.service.impl;
 import com.example.hotel_booking_api.dto.request.RoleRequest;
 import com.example.hotel_booking_api.dto.response.UserResponse;
 import com.example.hotel_booking_api.entity.User;
+import com.example.hotel_booking_api.exception.InvalidOperationException;
 import com.example.hotel_booking_api.exception.ResourceNotFoundException;
 import com.example.hotel_booking_api.mapper.UserMapper;
 import com.example.hotel_booking_api.repository.UserRepository;
 import com.example.hotel_booking_api.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +28,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse changeRole(Long id, RoleRequest request) {
-        User user = userRepository.findById(id)
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(auth == null) {
+            throw new AuthenticationCredentialsNotFoundException("User is not authenticated");
+        }
+
+        String currentUsername = auth.getName();
+
+        User targetUser = userRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("User not found"));
-        user.setRole(request.getRole());
-        userRepository.save(user);
-        return userMapper.toResponse(user);
+
+        if(targetUser.getEmail().equals(currentUsername)) {
+            throw new InvalidOperationException("You cannot change your own role");
+        }
+
+        targetUser.setRole(request.getRole());
+        userRepository.save(targetUser);
+        return userMapper.toResponse(targetUser);
     }
 
     @Override
