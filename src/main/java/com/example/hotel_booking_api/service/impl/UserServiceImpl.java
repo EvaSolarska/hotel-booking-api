@@ -7,11 +7,9 @@ import com.example.hotel_booking_api.exception.InvalidOperationException;
 import com.example.hotel_booking_api.exception.ResourceNotFoundException;
 import com.example.hotel_booking_api.mapper.UserMapper;
 import com.example.hotel_booking_api.repository.UserRepository;
+import com.example.hotel_booking_api.security.SecurityCurrentUserProvider;
 import com.example.hotel_booking_api.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,18 +22,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final SecurityCurrentUserProvider securityCurrentUserProvider;
     private final UserMapper userMapper;
 
     @Override
     public UserResponse changeRole(Long id, RoleRequest request) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(auth == null) {
-            throw new AuthenticationCredentialsNotFoundException("User is not authenticated");
-        }
-
-        String currentUsername = auth.getName();
+        String currentUsername = securityCurrentUserProvider.getCurrentUserName();
 
         User targetUser = userRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("User not found"));
