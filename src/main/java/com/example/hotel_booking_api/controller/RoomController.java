@@ -20,7 +20,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or @hotelManagerService.isHotelManager(#hotelId, principal.username)")
+    @PreAuthorize("hasRole('ADMIN') or @securityService.isHotelManager(#hotelId)")
     public ResponseEntity<RoomResponse> addRoom(@PathVariable Long hotelId, @Valid @RequestBody RoomRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(roomService.addRoom(hotelId, request));
@@ -38,13 +38,13 @@ public class RoomController {
     }
 
     @PutMapping("/{roomId}")
-    @PreAuthorize("hasRole('ADMIN') or @hotelManagerService.isHotelManager(#hotelId, principal.username)")
+    @PreAuthorize("hasRole('ADMIN') or @securityService.isHotelManager(#hotelId)")
     public ResponseEntity<RoomResponse> updateRoom(@PathVariable Long hotelId, @PathVariable Long roomId, @Valid @RequestBody RoomRequest request) {
         return ResponseEntity.ok(roomService.updateRoom(hotelId, roomId, request));
     }
 
     @DeleteMapping("/{roomId}")
-    @PreAuthorize("hasRole('ADMIN') or @hotelManagerService.isHotelManager(#hotelId, principal.username)")
+    @PreAuthorize("hasRole('ADMIN') or @securityService.isHotelManager(#hotelId)")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long hotelId, @PathVariable Long roomId) {
         roomService.deleteRoom(hotelId, roomId);
         return ResponseEntity.noContent().build();

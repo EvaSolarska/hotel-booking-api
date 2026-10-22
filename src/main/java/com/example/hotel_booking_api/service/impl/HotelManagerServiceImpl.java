@@ -83,17 +83,4 @@ public class HotelManagerServiceImpl implements HotelManagerService {
                 .map(hotelManager -> userMapper.toResponse(hotelManager.getUser()))
                 .collect(Collectors.toList());
     }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean isHotelManager(Long hotelId, String email) {
-        if (!hotelRepository.existsById(hotelId)) {
-            throw new ResourceNotFoundException("Hotel not found");
-        }
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        return hotelManagerRepository.existsByHotelIdAndUserId(hotelId, user.getId());
-    }
 }

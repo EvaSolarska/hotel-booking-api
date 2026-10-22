@@ -8,5 +8,4 @@ public interface HotelManagerService {
     void assignManager(Long hotelId, Long userId);
     void removeManager(Long hotelId, Long userId);
     List<UserResponse> getManagers(Long hotelId);
-    boolean isHotelManager(Long hotelId, String email);
 }

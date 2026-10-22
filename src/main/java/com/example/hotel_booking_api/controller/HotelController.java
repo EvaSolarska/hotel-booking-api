@@ -39,7 +39,7 @@ public class HotelController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or @hotelManagerService.isHotelManager(#id, principal.username)")
+    @PreAuthorize("hasRole('ADMIN') or @securityService.isHotelManager(#id)")
     public ResponseEntity<HotelResponse> updateHotel(@PathVariable Long id, @Valid @RequestBody HotelRequest request) {
         return ResponseEntity.ok(hotelService.updateHotel(id, request));
     }
