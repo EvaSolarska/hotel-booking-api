@@ -8,8 +8,7 @@ import java.util.List;
 public interface ReservationService {
     ReservationResponse createReservation(ReservationRequest request);
     void cancelReservation(Long id);
-
-    List<ReservationResponse> getAllReservations();
+    List<ReservationResponse> getAllReservationsForHotel(Long hotelId);
     ReservationResponse getReservationById(Long id);
     List<ReservationResponse> getMyReservations();
 }

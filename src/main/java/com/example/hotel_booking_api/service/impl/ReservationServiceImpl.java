@@ -10,14 +10,13 @@ import com.example.hotel_booking_api.exception.DuplicateResourceException;
 import com.example.hotel_booking_api.exception.InvalidOperationException;
 import com.example.hotel_booking_api.exception.ResourceNotFoundException;
 import com.example.hotel_booking_api.mapper.ReservationMapper;
+import com.example.hotel_booking_api.repository.HotelRepository;
 import com.example.hotel_booking_api.repository.ReservationRepository;
 import com.example.hotel_booking_api.repository.RoomRepository;
 import com.example.hotel_booking_api.repository.UserRepository;
+import com.example.hotel_booking_api.security.CurrentUserProvider;
 import com.example.hotel_booking_api.service.ReservationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +32,8 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final HotelRepository hotelRepository;
+    private final CurrentUserProvider currentUserProvider;
     private final ReservationMapper reservationMapper;
 
     @Transactional
@@ -63,13 +64,7 @@ public class ReservationServiceImpl implements ReservationService {
             );
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(auth == null) {
-            throw new AuthenticationCredentialsNotFoundException("User is not authenticated");
-        }
-
-        User user = userRepository.findByEmail(auth.getName())
+        User user = userRepository.findByEmail(currentUserProvider.getCurrentUserName())
                 .orElseThrow(()-> new ResourceNotFoundException("User not found"));
 
         BigDecimal totalPrice = calculateTotalPrice(room.getPricePerNight(), request.getCheckIn(), request.getCheckOut());
@@ -89,24 +84,51 @@ public class ReservationServiceImpl implements ReservationService {
         return pricePerNight.multiply(BigDecimal.valueOf(daysDiff));
     }
 
+    @Transactional
     @Override
     public void cancelReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Reservation not found")
+        );
 
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservationRepository.save(reservation);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<ReservationResponse> getAllReservations() {
-        return List.of();
+    public List<ReservationResponse> getAllReservationsForHotel(Long hotelId) {
+        if(!hotelRepository.existsById(hotelId)) {
+            throw new ResourceNotFoundException("Hotel not found");
+        }
+
+        return reservationRepository.findAllByRoom_Hotel_Id(hotelId)
+                .stream()
+                .map(reservationMapper::toResponse)
+                .toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ReservationResponse getReservationById(Long id) {
-        return null;
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Reservation not found")
+        );
+
+        return reservationMapper.toResponse(reservation);
     }
 
-
+    @Transactional(readOnly = true)
     @Override
     public List<ReservationResponse> getMyReservations() {
-        return null;
+
+        User user = userRepository.findByEmail(currentUserProvider.getCurrentUserName()).orElseThrow(
+                () -> new ResourceNotFoundException("User not found")
+        );
+
+        return reservationRepository.findAllByUserId(user.getId())
+                .stream()
+                .map(reservationMapper::toResponse)
+                .toList();
     }
 }

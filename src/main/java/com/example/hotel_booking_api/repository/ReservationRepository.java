@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
@@ -19,4 +20,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
               r.status != :cancelledStatus
         """)
     boolean isRoomOccupied(@Param("checkIn") LocalDate checkIn, @Param("checkOut") LocalDate checkOut, @Param("roomId") Long roomId, @Param("cancelledStatus") ReservationStatus cancelledStatus);
+    List<Reservation> findAllByRoom_Hotel_Id(Long hotelId);
+    List<Reservation> findAllByUserId(Long userId);
 }
