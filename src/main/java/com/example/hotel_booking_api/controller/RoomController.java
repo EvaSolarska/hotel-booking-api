@@ -3,6 +3,7 @@ package com.example.hotel_booking_api.controller;
 import com.example.hotel_booking_api.dto.request.RoomRequest;
 import com.example.hotel_booking_api.dto.response.RoomResponse;
 import com.example.hotel_booking_api.service.RoomService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/hotels/{hotelId}/rooms")
 @RequiredArgsConstructor
+@Tag(name = "Rooms")
 public class RoomController {
 
     private final RoomService roomService;

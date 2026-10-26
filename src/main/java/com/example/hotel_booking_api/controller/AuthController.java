@@ -4,6 +4,7 @@ import com.example.hotel_booking_api.dto.response.AuthResponse;
 import com.example.hotel_booking_api.dto.request.LoginRequest;
 import com.example.hotel_booking_api.dto.request.RegisterRequest;
 import com.example.hotel_booking_api.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication")
 public class AuthController {
 
     private final AuthService authService;

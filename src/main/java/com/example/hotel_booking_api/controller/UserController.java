@@ -3,6 +3,7 @@ package com.example.hotel_booking_api.controller;
 import com.example.hotel_booking_api.dto.request.RoleRequest;
 import com.example.hotel_booking_api.dto.response.UserResponse;
 import com.example.hotel_booking_api.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
+@Tag(name = "Users")
 public class UserController {
 
     private final UserService userService;
