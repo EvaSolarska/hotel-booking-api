@@ -20,6 +20,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
               r.status != :cancelledStatus
         """)
     boolean isRoomOccupied(@Param("checkIn") LocalDate checkIn, @Param("checkOut") LocalDate checkOut, @Param("roomId") Long roomId, @Param("cancelledStatus") ReservationStatus cancelledStatus);
+    default boolean isRoomOccupied(LocalDate checkIn, LocalDate checkOut, Long roomId) {
+        return isRoomOccupied(checkIn, checkOut, roomId, ReservationStatus.CANCELLED);
+    }
     List<Reservation> findAllByRoom_Hotel_Id(Long hotelId);
     List<Reservation> findAllByUserId(Long userId);
 }

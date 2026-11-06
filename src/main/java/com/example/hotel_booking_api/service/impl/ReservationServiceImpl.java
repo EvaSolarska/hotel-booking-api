@@ -57,7 +57,7 @@ public class ReservationServiceImpl implements ReservationService {
             );
         }
 
-        if(reservationRepository.isRoomOccupied(request.getCheckIn(), request.getCheckOut(), request.getRoomId(), ReservationStatus.CANCELLED)) {
+        if(reservationRepository.isRoomOccupied(request.getCheckIn(), request.getCheckOut(), request.getRoomId())) {
             throw new DuplicateResourceException(
                     "dates",
                     "Room is already booked for the selected dates"
